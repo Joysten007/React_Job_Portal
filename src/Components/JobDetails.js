@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-function JobDetails({ jobTitle }) {
+function JobDetails({ jobTitle, description }) {
   const navigate = useNavigate();
+  const [currentJobTitle, setCurrentJobTitle] = useState(jobTitle);
 
   const handleApply = () => {
-    navigate(`/apply/${jobTitle}`);
+    navigate(`/apply/${encodeURIComponent(currentJobTitle)}`);
   };
 
   return (
@@ -22,24 +23,28 @@ function JobDetails({ jobTitle }) {
         type="button"
         className="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
+        data-bs-target={`#modal-${jobTitle.replace(/\s+/g, "-")}`}
+        onClick={() => setCurrentJobTitle(jobTitle)}
       >
-        View Job Details
+        View Details
       </button>
 
       <div
         className="modal fade"
-        id="staticBackdrop"
+        id={`modal-${jobTitle.replace(/\s+/g, "-")}`}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex="-1"
-        aria-labelledby="staticBackdropLabel"
+        aria-labelledby={`modalLabel-${jobTitle.replace(/\s+/g, "-")}`}
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">
+              <h1
+                className="modal-title fs-5"
+                id={`modalLabel-${jobTitle.replace(/\s+/g, "-")}`}
+              >
                 {jobTitle} Details
               </h1>
               <button
@@ -50,7 +55,8 @@ function JobDetails({ jobTitle }) {
               ></button>
             </div>
             <div className="modal-body">
-              Detailed job description goes here...
+              {description}
+              {/* Detailed job description for {jobTitle}... */}
             </div>
             <div className="modal-footer">
               <button
@@ -66,7 +72,7 @@ function JobDetails({ jobTitle }) {
                 data-bs-dismiss="modal"
                 onClick={handleApply}
               >
-                Apply
+                Apply Now
               </button>
             </div>
           </div>

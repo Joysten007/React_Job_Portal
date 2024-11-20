@@ -119,9 +119,6 @@ function JobApplicationForm() {
                 onChange={handleChange}
               />
               {errors.cv && <div className="invalid-feedback">{errors.cv}</div>}
-              <small className="form-text text-muted">
-                Accepted formats: PDF, DOC, DOCX (Max size: 5MB)
-              </small>
             </div>
 
             <button type="submit" className="btn btn-primary w-100">
